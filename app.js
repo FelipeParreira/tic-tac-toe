@@ -71,21 +71,27 @@ var playTurn = function(square) {
   if (!gameIsFinished) {
     turn++;
     var [row, col] = square.classList[1].split('').map(el => Number(el));
+
+    if (board[row][col] !== 0) {
+      return false;
+    }
+
     var value = players[currentPlayer].value;
 
     // render the board to the UI
     square.innerText = players[currentPlayer].sign;
 
     board[row][col] = value;
-    if (checkIfWon(board, row, col)) {
 
+    if (checkIfWon(board, row, col)) {
       setTimeout(() => window.alert(`${players[currentPlayer].name} won the game!`), 0);
       players[currentPlayer].score++;
-      currentPlayer = 0;
+      document.getElementsByClassName('score-' + (1 + currentPlayer))[0].innerText = '' + players[currentPlayer].score;
       return true;
     } else if (turn === 9) {
-      window.alert('There was a tie!');
+      setTimeout(() => window.alert('There was a tie!'), 0);
       ties++;
+      document.getElementsByClassName('ties-score')[0].innerText = '' + ties;
       currentPlayer = 0;
       return true;
     }
@@ -112,14 +118,14 @@ var resetGame = function() {
   }
 
   // reset state variables
-  currentPlayer = 0;
   turn = 0;
-  gameIsFinished = false;
 
-  window.alert(`Let's play a new round!\n ${players[currentPlayer].name} starts as usual!`);
+  window.alert(`Let's play a new round!\n ${players[currentPlayer].name} starts (since he won last time or was the one to play next)!`);
+
+  gameIsFinished = false;
 }
 
-window.addEventListener( 'load', function( event ) {
+window.addEventListener( 'load', function(event) {
     
   var $resetButton = document.getElementsByClassName('reset-button').valueOf()[0];
   $resetButton.addEventListener('click', resetGame);
@@ -131,6 +137,9 @@ window.addEventListener( 'load', function( event ) {
       gameIsFinished = playTurn(event.target) || gameIsFinished;
     });
   });
+
+  var $players = Array.from(document.getElementsByClassName('player'));
+  $players.forEach((player, index) => player.innerText = players[index].name + ` (${players[index].sign})`);
   
 });
 
