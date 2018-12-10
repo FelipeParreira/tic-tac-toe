@@ -35,7 +35,9 @@ var state = {
 
   turn: 0,
 
-  currentPlayer: 0
+  currentPlayer: 0,
+
+  lastWon: false
 
 };
 
@@ -56,7 +58,15 @@ var UIHelpers = {
   },
 
   alertNewGame: function() {
-    window.alert(`Let's play a new round!\n ${state.players[state.currentPlayer].name} starts (since he won last time or was the one to play next)!`);
+    var appendix;
+
+    if (state.lastWon) {
+      appendix = ' starts (since he won last time)!';
+    } else {
+      appendix = ' (since he was the one to play next)!';
+    }
+
+    window.alert(`Let's play a new round!\n ${state.players[state.currentPlayer].name} starts` + appendix);
   },
 
   alertGameWon: function() {
@@ -148,6 +158,7 @@ var playTurn = function(square) {
 
     if (checkIfWon(row, col)) {
       state.players[state.currentPlayer].score++;
+      state.lastWon = true;
 
       UIHelpers.alertGameWon();
       UIHelpers.updateScore(state.currentPlayer);
@@ -155,6 +166,7 @@ var playTurn = function(square) {
       return true;
     } else if (state.turn === 9) {
       state.ties++;
+      state.lastWon = false;
 
       UIHelpers.alertTie();
       UIHelpers.updateTies();
@@ -183,6 +195,10 @@ var resetGame = function() {
   state.turn = 0;
 
   UIHelpers.alertNewGame();
+
+  if (state.lastWon) {
+    state.lastWon = false;
+  }
 
   state.gameIsFinished = false;
 }
