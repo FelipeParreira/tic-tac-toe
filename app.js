@@ -13,15 +13,20 @@ var players = [
   {
     name: playerOne,
     value: 1,
-    sign: 'X'
+    sign: 'X',
+    score: 0
   },
 
   {
     name: playerTwo,
     value: 2,
-    sign: 'O'
-  }
+    sign: 'O',
+    score: 0
+  },
 ];
+
+var ties = 0;
+var gameIsFinished = false;
 
 var renderBoard = function() {
   console.log('hello')
@@ -34,28 +39,26 @@ var currentPlayer = 0;
 
 // check if anyone won the game
 var checkIfWon = function(board, row, col) {
-  var rowSum = board[row].reduce((total, el) => total + el, 0);
-  if (rowSum !== 0 && rowSum % 3 === 0) {
+  var rowSum = board[row].reduce((total, el) => total  && players[currentPlayer].value === el, true);
+  if (rowSum) {
     return true;
   }
 
-  var colSum = board.reduce((total, row) => total + row[col], 0);
-  if (colSum !== 0 && colSum % 3 === 0) {
+  var colSum = board.reduce((total, row) => total && players[currentPlayer].value === row[col], true);
+  if (colSum) {
     return true;
   }
-
-  var sumSecDiagonal = 0;  
+    
   if (row + col === 2) {
-    sumSecDiagonal += board.reduce((total, row, index) => total + row[2 - index], 0);
-    if (sumSecDiagonal !== 0 && sumSecDiagonal % 3 === 0) {
+    var sumSecDiagonal = board.reduce((total, row, index) => total && players[currentPlayer].value === row[2 - index], true);
+    if (sumSecDiagonal) {
       return true;
     }
   }
 
-  var sumMainDiagonal = 0;
   if (row === col) {
-    sumMainDiagonal += board.reduce((total, row, index) => total + row[index], 0);
-    if (sumMainDiagonal !== 0 && sumMainDiagonal % 3 === 0) {
+    var sumMainDiagonal = board.reduce((total, row, index) => total  && players[currentPlayer].value === row[index], true);
+    if (sumMainDiagonal) {
       return true;
     }
   }
@@ -65,26 +68,34 @@ var checkIfWon = function(board, row, col) {
 };
 
 var playTurn = function(square) {
-  turn++;
-  var [row, col] = square.classList[1].split('').map(el => Number(el));
-  var value = players[currentPlayer].value;
+  if (!gameIsFinished) {
+    turn++;
+    var [row, col] = square.classList[1].split('').map(el => Number(el));
+    var value = players[currentPlayer].value;
 
-  // render the board to the UI
-  square.innerText = players[currentPlayer].sign;
+    // render the board to the UI
+    square.innerText = players[currentPlayer].sign;
 
-  board[row][col] = value;
-  if (checkIfWon(board, row, col)) {
-    window.prompt(`${players[currentPlayer].name} won the game!`);
-    return false;
-  } else if (turn === 9) {
-    window.prompt('There was a tie!');
+    board[row][col] = value;
+    if (checkIfWon(board, row, col)) {
+
+      setTimeout(() => window.alert(`${players[currentPlayer].name} won the game!`), 0);
+      players[currentPlayer].score++;
+      currentPlayer = 0;
+      return true;
+    } else if (turn === 9) {
+      window.alert('There was a tie!');
+      ties++;
+      currentPlayer = 0;
+      return true;
+    }
+
+    currentPlayer = 1 - currentPlayer;
     return false;
   }
-
-  return true;
 };
 
-var resetGame = function(board) {
+var resetGame = function() {
   // clean the board
   for (var i = 0; i < board.length; i++) {
     for (var j = 0; j < board.length; j++) {
@@ -93,22 +104,31 @@ var resetGame = function(board) {
   }
 
   // re-render the board to the UI
+  for (var i = 0; i < board.length; i++) {
+    for(var j = 0; j < board.length; j++) {
+      var squareClass = '' + i + j;
+      document.getElementsByClassName(squareClass).valueOf()[0].innerText = '';
+    }
+  }
 
-  window.prompt(`Let's play a new round!\n ${players.X.name} starts as usual!`);
+  // reset state variables
+  currentPlayer = 0;
+  turn = 0;
+  gameIsFinished = false;
+
+  window.alert(`Let's play a new round!\n ${players[currentPlayer].name} starts as usual!`);
 }
 
 window.addEventListener( 'load', function( event ) {
     
   var $resetButton = document.getElementsByClassName('reset-button').valueOf()[0];
-  $resetButton.addEventListener('click', renderBoard);
+  $resetButton.addEventListener('click', resetGame);
 
   var $squares = Array.from(document.getElementsByClassName('square'));
 
   $squares.forEach(square => {
     square.addEventListener('click', (event) => {
-      // plaTurn(event.target);
-      // currentPlayer = 1 - currentPlayer;
-      event.target.innerText = 'hello';
+      gameIsFinished = playTurn(event.target) || gameIsFinished;
     });
   });
   
