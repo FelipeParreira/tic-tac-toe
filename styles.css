@@ -38,6 +38,7 @@ h1 {
   width: 8vw;
   font-size: 5vw;
   cursor: default;
+  transition: .5s;
 }
 
 .avail {
@@ -47,10 +48,6 @@ h1 {
 .occup, .avail:hover {
   background-color: blue;
   color: white;
-}
-
-th {
-
 }
 
 table, th {

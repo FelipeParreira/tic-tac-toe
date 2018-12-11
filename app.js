@@ -1,4 +1,3 @@
-// name of the players (user input)
 var playerNames = [
   window.prompt('Enter the name of player one (X):', 'First Player'),
   window.prompt('Enter the name of player two (O):', 'Second Player')
@@ -75,11 +74,11 @@ var UIHelpers = {
   },
 
   alertGameWon: function() {
-    setTimeout(() => window.alert(`${state.players[state.currentPlayer].name} won the game!`), 0);
+    setTimeout(() => window.alert(`${state.players[state.currentPlayer].name} won the game!`), 100);
   },
 
   alertTie: function() {
-    setTimeout(() => window.alert('There was a tie!'), 0);
+    setTimeout(() => window.alert('There was a tie!'), 100);
   },
 
   updateScore: function(currentPlayer) {
@@ -112,13 +111,14 @@ var UIHelpers = {
   },
 
   setBoardForFinishedGame: function() {
-    for (var i = 0; i < 3; i++) {
-      for(var j = 0; j < 3; j++) {
-        var squareClass = '' + i + j;
-        var square = document.getElementsByClassName(squareClass).valueOf()[0];
-        square.classList.remove('avail');
-      }
-    }
+    console.log('setBoardForFinishedGame');
+     for (var i = 0; i < 3; i++) {
+       for(var j = 0; j < 3; j++) {
+         var squareClass = '' + i + j;
+         var square = document.getElementsByClassName(squareClass).valueOf()[0];
+         square.classList.remove('avail');
+       }
+     }
   }
 
 };
@@ -164,8 +164,6 @@ var playTurn = function(square) {
       return false;
     }
 
-    
-
     var value = state.players[state.currentPlayer].value;
 
     // render the updated square to the UI
@@ -188,6 +186,7 @@ var playTurn = function(square) {
 
       UIHelpers.alertTie();
       UIHelpers.updateTies();
+      UIHelpers.setBoardForFinishedGame();
 
       state.currentPlayer = 0;
       return true;
@@ -231,8 +230,3 @@ window.addEventListener( 'load', function(event) {
   UIHelpers.setScores();
   
 });
-
-
-
-
-
