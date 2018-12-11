@@ -36,7 +36,9 @@ var state = {
 
   currentPlayer: 0,
 
-  lastWon: false
+  lastWon: false,
+
+  speciaEffects: false
 
 };
 
@@ -150,6 +152,14 @@ var UIHelpers = {
         }
       });
     }
+  },
+
+  askUserOnEffects: function() {
+    state.speciaEffects = false;
+    var answer = window.prompt('Do you want to keep some special effects? [y/N]', 'N');
+    if (answer.toLowerCase().substring(0, 1) === 'y') {
+      state.speciaEffects = true;
+    }
   }
 
 };
@@ -253,6 +263,7 @@ var resetGame = function() {
   }
 
   state.gameIsFinished = false;
+  UIHelpers.askUserOnEffects();
 }
 
 window.addEventListener( 'load', function(event) {
@@ -263,5 +274,6 @@ window.addEventListener( 'load', function(event) {
 
   UIHelpers.setBoard();
   UIHelpers.setScores();
+  UIHelpers.askUserOnEffects();
   
 });
