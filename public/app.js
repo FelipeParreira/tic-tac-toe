@@ -71,6 +71,7 @@ var playTurn = function(square) {
     }
 
     state.currentPlayer = 1 - state.currentPlayer;
+    UIHelpers.updateTurn();
     return false;
   }
 };
@@ -85,6 +86,7 @@ var resetGame = function() {
 
   // re-render the board to the UI
   UIHelpers.emptyBoard();
+  
 
   // reset state variables
   state.turn = 0;

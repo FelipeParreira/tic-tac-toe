@@ -86,3 +86,10 @@ table, th {
   color: #808080;
   cursor: pointer;
 }
+
+.turn {
+  border: 1px solid black;
+  display: inline-block;
+  width: 10vw;
+  margin: 0 auto;
+}

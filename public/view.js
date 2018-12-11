@@ -116,6 +116,10 @@ var UIHelpers = {
     if (answer.toLowerCase().substring(0, 1) === 'y') {
       state.speciaEffects = true;
     }
+  },
+
+  updateTurn: function() {
+    document.getElementsByClassName('turn')[0].innerText = `${state.players[state.currentPlayer].name}'s turn`;
   }
 
 };
