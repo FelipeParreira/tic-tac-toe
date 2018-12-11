@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #808080;
+  text-align: center;
+  font-family: Helvetica, sans-serif;
+  color: white;
+}
+
+h1 {
+  border: 1px solid #92a8d1;
+  border-radius: 5px;
+  background-color: #b2b2b2;
+  display: inline-block;
+  padding: .5em;
+  width: auto;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.board, .scores {
+  background-color: #d5e1df;
+  color: #3e4444;
+  margin: 0 auto;
+}
+
+.player, .score, .ties {
+  height: 3vw;
+  width: 10vw;
+}
+
+.sign {
+  width: 3vw;
+}
+
+.square {
+  height: 8vw;
+  width: 8vw;
+  font-size: 5vw;
+  cursor: default;
+  transition: .5s;
+}
+
+.win-square {
+  background-color: yellow !important;
+  color: red !important;
+}
+
+.avail {
+  cursor: pointer;
+}
+
+.occup, .avail:hover {
+  background-color: blue;
+  color: white;
+  box-shadow: 5px 10px;
+  box-shadow-color: black;
+}
+
+table, th {
+  border-radius: 5px;
+  border-color: white;
+}
+
+.reset-button {
+  background-color: transparent;
+  color: white;
+  font-size: 3vh;
+  border-radius: 5px;
+  transition: .5s;
+}
+
+.reset-button:focus {
+  outline: none;
+}
+
+.reset-button:hover {
+  background-color: white;
+  color: #808080;
+  cursor: pointer;
+}
