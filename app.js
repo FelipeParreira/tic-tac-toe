@@ -46,13 +46,18 @@ var UIHelpers = {
 
   updateSquare: function(square) {
     square.innerText = state.players[state.currentPlayer].sign;
+    square.classList.remove('avail');
+    square.classList.add('occup');
   },
 
   emptyBoard: function() {
     for (var i = 0; i < 3; i++) {
       for(var j = 0; j < 3; j++) {
         var squareClass = '' + i + j;
-        document.getElementsByClassName(squareClass).valueOf()[0].innerText = '';
+        var square = document.getElementsByClassName(squareClass).valueOf()[0]
+        square.innerText = '';
+        square.classList.add('avail');
+        square.classList.remove('occup');
       }
     }
   },
@@ -100,10 +105,20 @@ var UIHelpers = {
   setScores: function() {
     var $players = Array.from(document.getElementsByClassName('player'));
     $players.forEach((player, index) => {
-      player.innerText = state.players[index].name + ` (${state.players[index].sign})`;
+      player.innerText = state.players[index].name;
       UIHelpers.updateScore(index);
     });
     UIHelpers.updateTies();
+  },
+
+  setBoardForFinishedGame: function() {
+    for (var i = 0; i < 3; i++) {
+      for(var j = 0; j < 3; j++) {
+        var squareClass = '' + i + j;
+        var square = document.getElementsByClassName(squareClass).valueOf()[0];
+        square.classList.remove('avail');
+      }
+    }
   }
 
 };
@@ -149,6 +164,8 @@ var playTurn = function(square) {
       return false;
     }
 
+    
+
     var value = state.players[state.currentPlayer].value;
 
     // render the updated square to the UI
@@ -162,6 +179,7 @@ var playTurn = function(square) {
 
       UIHelpers.alertGameWon();
       UIHelpers.updateScore(state.currentPlayer);
+      UIHelpers.setBoardForFinishedGame();
       
       return true;
     } else if (state.turn === 9) {

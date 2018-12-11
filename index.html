@@ -2,44 +2,53 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Tic Tac Toe</title>
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="app.js"></script>
   </head>
   <body>
-    <h1>Tic tac toe</h1>
+
+    <h1>Tic-Tac-Toe</h1>
+    <hr />
     <button class="reset-button">Reset the game!</button>
     <hr />
+
       <table class="scores" border="1">
         <tr>
-          <th class="player player-1" style="height: 15px; width: 50px"></th>
-          <th class="score score-1" style="height: 15px; width: 50px"></th>
+          <th class="player player-1"></th>
+          <th class="sign">X</th>
+          <th class="score score-1"></th>
         </tr>
         <tr>
-          <th class="player player-2" style="height: 15px; width: 50px"></th>
-          <th class="score score-2" style="height: 15px; width: 50px"></th>
+          <th class="player player-2"></th>
+          <th class="sign">O</th>
+          <th class="score score-2"></th>
         </tr>
         <tr>
-          <th class="ties" style="height: 15px; width: 50px">Ties</th>
-          <th class="ties-score" style="height: 15px; width: 50px"></th>
+          <th class="ties" colspan="2">Ties</th>
+          <th class="ties-score"></th>
         </tr>
       </table>
+
     <hr />
+
     <table class="board"  border="1">
       <tr>
-        <th class="square 00" style="height: 35px; width: 35px"></th>
-        <th class="square 01" style="height: 35px; width: 35px"></th> 
-        <th class="square 02" style="height: 35px; width: 35px"></th>
+        <th class="square 00 avail"></th>
+        <th class="square 01 avail"></th> 
+        <th class="square 02 avail"></th>
       </tr>
       <tr>
-        <th class="square 10" style="height: 35px; width: 35px"></th>
-        <th class="square 11" style="height: 35px; width: 35px"></th> 
-        <th class="square 12" style="height: 35px; width: 35px"></th>
+        <th class="square 10 avail"></th>
+        <th class="square 11 avail"></th> 
+        <th class="square 12 avail"></th>
       </tr>
       <tr>
-        <th class="square 20" style="height: 35px; width: 35px"></th>
-        <th class="square 21" style="height: 35px; width: 35px"></th> 
-        <th class="square 22" style="height: 35px; width: 35px"></th>
+        <th class="square 20 avail"></th>
+        <th class="square 21 avail"></th> 
+        <th class="square 22 avail"></th>
       </tr>
     </table>
+
   </body>
 </html>
