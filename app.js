@@ -57,6 +57,7 @@ var UIHelpers = {
         square.innerText = '';
         square.classList.add('avail');
         square.classList.remove('occup');
+        square.classList.remove('win-square');
       }
     }
   },
@@ -74,7 +75,7 @@ var UIHelpers = {
   },
 
   alertGameWon: function() {
-    setTimeout(() => window.alert(`${state.players[state.currentPlayer].name} won the game!`), 100);
+    setTimeout(() => window.alert(`${state.players[state.currentPlayer].name} won the game!`), 300);
   },
 
   alertTie: function() {
@@ -111,7 +112,6 @@ var UIHelpers = {
   },
 
   setBoardForFinishedGame: function() {
-    console.log('setBoardForFinishedGame');
      for (var i = 0; i < 3; i++) {
        for(var j = 0; j < 3; j++) {
          var squareClass = '' + i + j;
@@ -119,6 +119,37 @@ var UIHelpers = {
          square.classList.remove('avail');
        }
      }
+  },
+
+  updateWinSquares: function(index, direction) {
+    var squares = Array.from(document.getElementsByClassName('square'));
+
+    if(direction === 'row') {
+      squares.forEach((square) => {
+        if (square.classList[1].split('')[0] == index) {
+          square.classList.add('win-square');
+        }
+      });
+    } else if (direction === 'col') {
+      squares.forEach((square) => {
+        if (square.classList[1].split('')[1] == index) {
+          square.classList.add('win-square');
+        }
+      });
+    } else if (direction === 'diag') {
+      squares.forEach((square) => {
+        if (square.classList[1].split('')[0] == square.classList[1].split('')[1]) {
+          square.classList.add('win-square');
+        }
+      });
+
+    } else if (direction === 'sec') {
+      squares.forEach((square) => {
+        if (Number(square.classList[1].split('')[0]) + Number(square.classList[1].split('')[1]) === 2) {
+          square.classList.add('win-square');
+        }
+      });
+    }
   }
 
 };
@@ -128,17 +159,20 @@ var UIHelpers = {
 var checkIfWon = function(row, col) {
   var rowSum = state.board[row].reduce((total, el) => total  && state.players[state.currentPlayer].value === el, true);
   if (rowSum) {
+    UIHelpers.updateWinSquares(row, 'row');
     return true;
   }
 
   var colSum = state.board.reduce((total, row) => total && state.players[state.currentPlayer].value === row[col], true);
   if (colSum) {
+    UIHelpers.updateWinSquares(col, 'col');
     return true;
   }
     
   if (row + col === 2) {
     var sumSecDiagonal = state.board.reduce((total, row, index) => total && state.players[state.currentPlayer].value === row[2 - index], true);
     if (sumSecDiagonal) {
+      UIHelpers.updateWinSquares(2, 'sec');
       return true;
     }
   }
@@ -146,6 +180,7 @@ var checkIfWon = function(row, col) {
   if (row === col) {
     var sumMainDiagonal = state.board.reduce((total, row, index) => total  && state.players[state.currentPlayer].value === row[index], true);
     if (sumMainDiagonal) {
+      UIHelpers.updateWinSquares(0, 'diag');
       return true;
     }
   }
